@@ -1,0 +1,133 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-be
+  namespace: cpu
+  labels:
+    app: web-be
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web-be
+  template:
+    metadata:
+      labels:
+        app: web-be
+      annotations:
+    spec:
+      containers:
+        - name: web-be
+          image: nginx
+          ports:
+          - containerPort: 80
+            name: http
+          volumeMounts:
+          - mountPath: /usr/share/nginx/html/
+            name: web-be
+          - mountPath: /usr/share/nginx/html/api/
+            name: web-be-api
+          - mountPath: /etc/nginx/conf.d
+            readOnly: true
+            name: nginx-conf
+      initContainers:
+        - name: web-be-init
+          image: everpeace/curl-jq
+          volumeMounts:
+          - mountPath: /usr/share/nginx/html/
+            name: web-be
+          - mountPath: /usr/share/nginx/html/api/
+            name: web-be-api
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: HOST_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          command:
+            - "sh"
+            - "-c"
+            - | 
+              cat <<EOF >/usr/share/nginx/html/index.html
+              
+              Service-Name     = web-be
+              Service-Version  = v0
+              Service-ID       = ${POD_NAME}
+              Pod IP address   = ${POD_IP}
+              Node             = ${HOST_NAME}
+              
+              EOF
+              cat <<EOF >/usr/share/nginx/html/api/index.html
+              
+              Service-Name     = web-be
+              Service-Version  = v0
+              Service-ID       = ${POD_NAME}
+              Pod IP address   = ${POD_IP}
+              Node             = ${HOST_NAME}
+              
+              EOF
+      # serviceAccountName: web-be
+      volumes:
+        - name: web-be
+          emptyDir: {}
+        - name: web-be-api
+          emptyDir: {}
+        - name: nginx-conf
+          configMap:
+            name: nginx-conf
+            items:
+              - key: default.conf
+                path: default.conf
+
+# ---
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: web-be
+
+---         
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf
+  namespace: cpu
+data:
+  default.conf: |
+    server {
+        listen       80;
+        listen  [::]:80;
+        server_name  localhost;
+    
+        location / {
+            root   /usr/share/nginx/html;
+            index  index.html index.htm;
+        }
+    
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /usr/share/nginx/html;
+        }
+    }
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-be
+  namespace: cpu
+  labels:
+    app: web-be
+spec:
+  selector:
+    app: web-be
+  ports:
+    - name: web-be
+      port: 80
+      targetPort: 80

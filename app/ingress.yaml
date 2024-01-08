@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: basic-ingress
+  namespace: cpu
+  annotations:
+    ingress.cilium.io/loadbalancer-mode: dedicated
+spec:
+  ingressClassName: cilium
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: web-fe
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+      - backend:
+          service:
+            name: api-v1
+            port:
+              number: 80
+        path: /api
+        pathType: Prefix
