@@ -21,9 +21,3 @@ spec:
         - ports:
             - port: "80"
               protocol: TCP
-    - toFQDNs:
-        - matchName: google.com
-      toPorts:
-        - ports:
-            - port: "80"
-              protocol: TCP

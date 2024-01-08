@@ -12,8 +12,6 @@ spec:
         - matchLabels:
             app: web-fe
             io.kubernetes.pod.namespace: cpu
-      # authentication:
-      #   mode: "required"
       toPorts:
         - ports:
           - port: "80"
@@ -22,8 +20,8 @@ spec:
             http:
             - method: "GET"
               path: "/api"
-            - method: "GET"
-              path: "/api/"
+            # - method: "GET"
+            #   path: "/api/"
             - method: "GET"
               path: "/"
             - method: "GET"
