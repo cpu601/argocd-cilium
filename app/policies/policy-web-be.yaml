@@ -1,0 +1,38 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: web-be
+  namespace: cpu
+spec:
+  endpointSelector:
+    matchLabels:
+      app: web-be
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            app: web-fe
+            io.kubernetes.pod.namespace: cpu
+      # authentication:
+      #   mode: "required"
+      toPorts:
+        - ports:
+          - port: "80"
+            protocol: TCP
+          rules:
+            http:
+            - method: "GET"
+              path: "/api"
+            - method: "GET"
+              path: "/api/"
+            - method: "GET"
+              path: "/"
+            - method: "GET"
+              path: "/FindMe/"
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.name: cpu-ext-1
+            io.kubernetes.pod.namespace: default
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP             

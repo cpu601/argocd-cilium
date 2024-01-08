@@ -1,0 +1,44 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: web-fe
+  namespace: cpu
+spec:
+  endpointSelector:
+    matchLabels:
+      app: web-fe
+  ingress:
+    - fromEntities:
+        - ingress
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+    # - fromCIDRSet:
+    #   - cidrGroupRef: cpu-fqdn-group
+    - fromEndpoints:
+        - matchLabels:
+            app: traffic-generator
+            io.kubernetes.pod.namespace: cpu
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            app: web-be
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+          # rules:
+          #   http:
+          #   - method: "GET"
+          #     path: "/api"
+          #   - method: "GET"
+          #     path: "/api/"
+          #   - method: "GET"
+          #     path: "/"
+          #   - method: "GET"
+          #     path: "/FindMe/"
