@@ -1,0 +1,40 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: traffic-generator
+  namespace: cpu
+spec:
+  endpointSelector:
+    matchLabels:
+      app: traffic-generator
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            app: web-fe
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+    # - toEntities:
+    #   - world
+    #   toPorts:
+    #     - ports:
+    #       - port: "80"
+    #         protocol: TCP
+    # - toCIDR:
+    #   - 142.250.0.0/16
+    #   toPorts:
+    #     - ports:
+    #       - port: "80"
+    #         protocol: TCP
+    - toFQDNs:
+      - matchName: "cilium.io"
+    #   toPorts:
+    #     - ports:
+    #       - port: "80"
+    #         protocol: TCP
+    #       rules:
+    #         http:
+    #         - method: GET
+    #           path: "/"
+
