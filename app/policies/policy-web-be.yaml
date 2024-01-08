@@ -24,11 +24,3 @@ spec:
               path: "/"
             - method: "GET"
               path: "/FindMe/"
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.name: cpu-ext-1
-            io.kubernetes.pod.namespace: default
-      toPorts:
-        - ports:
-            - port: "80"
-              protocol: TCP             
