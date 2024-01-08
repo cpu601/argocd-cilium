@@ -21,15 +21,3 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    # - toEndpoints:
-    #     - matchLabels:
-    #         app.kubernetes.io/name: kube-dns
-    #         app: coredns
-    #         io.kubernetes.pod.namespace: kube-system
-    #   toPorts:
-    #     - ports:
-    #         - port: "53"
-    #           protocol: UDP
-    #       rules:
-    #         dns:
-    #           - matchPattern: "*"

@@ -14,8 +14,6 @@ spec:
         - ports:
             - port: "8080"
               protocol: TCP
-    # - fromCIDRSet:
-    #   - cidrGroupRef: cpu-fqdn-group
     - fromEndpoints:
         - matchLabels:
             app: traffic-generator
