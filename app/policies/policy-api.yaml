@@ -16,11 +16,5 @@ spec:
               protocol: TCP
           rules:
             http:
-            # - method: "GET"
-            #   path: "/api"
-            # - method: "GET"
-            #   path: "/api/"
             - method: "GET"
               path: "/"
-            # - method: "GET"
-            #   path: "/FindMe/"

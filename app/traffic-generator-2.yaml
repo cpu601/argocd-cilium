@@ -22,4 +22,4 @@ spec:
           command:
             - "sh"
             - "-c"
-            - while true; do curl -s web-fe/FindMe/; sleep $(shuf -i0-2 -n1); curl -s web-fe; sleep $(shuf -i0-2 -n1); curl -s web-fe/api; sleep $(shuf -i0-2 -n1); curl -s web-fe/api; sleep $(shuf -i0-2 -n1); curl -s web-fe/NotAllowed/; sleep $(shuf -i0-2 -n1); curl -s web-fe/api/; sleep $(shuf -i0-2 -n1); curl -s web-fe; sleep $(shuf -i0-2 -n1); curl -s web-fe/FindMe/; sleep $(shuf -i0-2 -n1); curl -s web-fe/api/; sleep $(shuf -i0-2 -n1); curl -s web-fe/api/; sleep $(shuf -i0-2 -n1); done
+            - while true; do curl -s web-fe/FindMe/; sleep $(shuf -i0-2 -n1); curl -s web-fe; sleep $(shuf -i0-2 -n1); curl -s web-fe/api/; sleep $(shuf -i0-2 -n1); curl -s web-fe/api/; sleep $(shuf -i0-2 -n1); curl -s web-fe/NotAllowed/; sleep $(shuf -i0-2 -n1); curl -s web-fe/api/; sleep $(shuf -i0-2 -n1); curl -s web-fe; sleep $(shuf -i0-2 -n1); curl -s web-fe/FindMe/; sleep $(shuf -i0-2 -n1); curl -s web-fe/api/; sleep $(shuf -i0-2 -n1); curl -s web-fe/api/; sleep $(shuf -i0-2 -n1); done
