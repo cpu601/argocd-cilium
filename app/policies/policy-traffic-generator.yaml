@@ -16,7 +16,7 @@ spec:
             - port: "8080"
               protocol: TCP
     - toFQDNs:
-        - matchName: cilium.io
+        - matchName: google.com
       toPorts:
         - ports:
             - port: "80"
