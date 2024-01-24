@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traffic-generator
+  namespace: cpu
+  labels:
+    app: traffic-generator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: traffic-generator
+  template:
+    metadata:
+      labels:
+        app: traffic-generator
+      annotations:
+    spec:
+      containers:
+        - name: traffic-generator
+          image: everpeace/curl-jq
+          command:
+            - "sh"
+            - "-c"
+            - while true; do sleep 60; done
