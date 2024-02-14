@@ -22,7 +22,7 @@ spec:
             - port: "80"
               protocol: TCP
     - toFQDNs:
-        - matchName: google.com
+        - matchName: dc.services.visualstudio.com
       toPorts:
         - ports:
             - port: "80"
